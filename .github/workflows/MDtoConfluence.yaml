@@ -10,7 +10,7 @@ on:
         required: true
         type: string
       ROOT_PARENT_PAGE_ID:
-        description: "Optional parent page ID for Confluence"
+        description: "Root parent page ID for Confluence"
         required: true
         type: string
       SPACE:
@@ -18,7 +18,7 @@ on:
         required: true
         type: string
       ROOT_DIR:
-        description: "Root directory containing the markdown files"
+        description: "Root directory containing markdown files"
         required: true
         type: string
         default: "."
@@ -39,11 +39,15 @@ jobs:
           CONFLUENCE_URL: ${{ inputs.CONFLUENCE_URL }}
           CONFLUENCE_EMAIL: ${{ inputs.CONFLUENCE_EMAIL }}
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
-          ROOT_PARENT_PAGE_ID: ${{ inputs.ROOT_PARENT_PAGE_ID || vars.ROOT_PARENT_PAGE_ID}}
-          SPACE: ${{ inputs.SPACE || vars.SPACE }}
+          ROOT_PARENT_PAGE_ID: ${{ inputs.ROOT_PARENT_PAGE_ID }}
+          SPACE: ${{ inputs.SPACE }}
+          ROOT_DIR: ${{ inputs.ROOT_DIR }}
 
         run: |
+          echo "Using ROOT_PARENT_PAGE_ID=$ROOT_PARENT_PAGE_ID"
+          echo "Using ROOT_DIR=$ROOT_DIR"
+
           python3 ./upload_to_confluence.py \
-            --root-page-id "${ROOT_PARENT_PAGE_ID}" \
-            --root-dir . \
-            --space  "${SPACE}"
+            --root-page-id "$ROOT_PARENT_PAGE_ID" \
+            --root-dir "$ROOT_DIR" \
+            --space "$SPACE"
