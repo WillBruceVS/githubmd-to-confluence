@@ -3,10 +3,10 @@ description: "Sync GitHub docs to Confluence"
 author: "William Bruce"
 
 inputs:
-  root-page-id:
+  root_page_id:
     description: "Parent page ID"
     required: false
-  root-dir:
+  root_dir:
     description: "Directory containing markdown"
     required: false
     default: "."
@@ -18,6 +18,6 @@ runs:
   using: docker
   image: Dockerfile
   env:
-    ROOT_PAGE_ID: ${{ inputs.root-page-id }}
-    ROOT_DIR: ${{ inputs.root-dir }}
+    ROOT_PAGE_ID: ${{ inputs.root_page_id }}
+    ROOT_DIR: ${{ inputs.root_dir }}
     SPACE: ${{ inputs.space }}
