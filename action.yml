@@ -1,0 +1,17 @@
+name: "Upload Markdown to Confluence"
+description: "Sync Markdown to Confluence via Python"
+inputs:
+  root-page-id:
+    required: true
+  root-dir:
+    required: false
+    default: "."
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - "--root-page-id"
+    - ${{ inputs.root-page-id }}
+    - "--root-dir"
+    - ${{ inputs.root-dir }}
