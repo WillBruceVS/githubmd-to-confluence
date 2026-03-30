@@ -32,6 +32,9 @@ parser.add_argument(
     "--root-dir", default=".", help="Filesystem root directory"
 )
 parser.add_argument("--space", default=".", help="Confluence Space to use")
+parser.add_argument("--confluence-url", required=True)
+parser.add_argument("--confluence-email", required=True)
+
 args = parser.parse_args()
 
 ROOT_PARENT_PAGE_ID = args.root_page_id
@@ -44,8 +47,8 @@ print("Using argument for --root-dir:   " + ROOT_DIR)
 # ---------------------------------------------------------
 
 confluence = Confluence(
-    url=os.environ["CONFLUENCE_URL"],
-    username=os.environ["CONFLUENCE_EMAIL"],
+    url=args.confluence_url,
+    username=args.confluence_email,
     password=os.environ["CONFLUENCE_API_TOKEN"],
 )
 
