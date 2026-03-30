@@ -3,6 +3,12 @@ name: Upload Markdown to Confluence
 on:
   workflow_call:
     inputs:
+      CONFLUENCE_URL:
+        required: true
+        type: string
+      CONFLUENCE_EMAIL:
+        required: true
+        type: string
       ROOT_PARENT_PAGE_ID:
         description: "Optional parent page ID for Confluence"
         required: false
@@ -17,19 +23,12 @@ on:
         type: string
         default: "./docs"
     secrets:
-      CONFLUENCE_URL:
-        required: true
-      CONFLUENCE_EMAIL:
-        required: true
       CONFLUENCE_API_TOKEN:
-        required: true
-      SPACE:
         required: true
 
 jobs:
   MDtoConfluence:
     runs-on: vs-github-runner
-    environment: prod
 
     steps:
       - name: Checkout repository
@@ -37,12 +36,12 @@ jobs:
 
       - name: Run Confluence Sync
         env:
-          CONFLUENCE_URL: ${{ vars.CONFLUENCE_URL }}
-          CONFLUENCE_EMAIL: ${{ vars.CONFLUENCE_EMAIL }}
+          CONFLUENCE_URL: ${{ inputs.CONFLUENCE_URL }}
+          CONFLUENCE_EMAIL: ${{ inputs.CONFLUENCE_EMAIL }}
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
 
           ROOT_PARENT_PAGE_ID: ${{ inputs.ROOT_PARENT_PAGE_ID || vars.ROOT_PARENT_PAGE_ID || '' }}
-          SPACE: ${{ inputs.SPACE || vars.SPACE || '' }}
+          SPACE: ${{ inputs.SPACE || vars.SPACE }}
 
         run: |
           python3 ./upload_to_confluence.py \

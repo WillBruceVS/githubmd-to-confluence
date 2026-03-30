@@ -3,6 +3,12 @@ description: "Sync GitHub docs to Confluence"
 author: "William Bruce"
 
 inputs:
+  confluence_url:
+    description: "Parent page ID"
+    required: false
+  confluence_email:
+    description: "Parent page ID"
+    required: false
   root_page_id:
     description: "Parent page ID"
     required: false
@@ -18,6 +24,8 @@ runs:
   using: docker
   image: Dockerfile
   env:
+    CONFLUENCE_URL:  ${{ inputs.confluence_url }}
+    CONFLUENCE_EMAIL: ${{ inputs.confluence_email }}
     ROOT_PAGE_ID: ${{ inputs.root_page_id }}
     ROOT_DIR: ${{ inputs.root_dir }}
     SPACE: ${{ inputs.space }}
