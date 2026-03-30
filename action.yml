@@ -17,15 +17,20 @@ inputs:
     required: true
     default: "."
   space:
-    description: "Confluence API key"
+    description: "Confluence space key"
     required: true
 
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    CONFLUENCE_URL: ${{ inputs.confluence_url }}
-    CONFLUENCE_EMAIL: ${{ inputs.confluence_email }}
-    ROOT_PAGE_ID: ${{ inputs.root_page_id }}
-    ROOT_DIR: ${{ inputs.root_dir }}
-    SPACE: ${{ inputs.space }}
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - --confluence-url
+    - ${{ inputs.confluence_url }}
+    - --confluence-email
+    - ${{ inputs.confluence_email }}
+    - --root-page-id
+    - ${{ inputs.root_page_id }}
+    - --root-dir
+    - ${{ inputs.root_dir }}
+    - --space
+    - ${{ inputs.space }}
