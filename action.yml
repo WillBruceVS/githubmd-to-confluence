@@ -4,27 +4,27 @@ author: "William Bruce"
 
 inputs:
   confluence_url:
-    description: "Parent page ID"
-    required: false
+    description: "Confluence Space URL"
+    required: true
   confluence_email:
-    description: "Parent page ID"
-    required: false
+    description: "Confluence login email"
+    required: true
   root_page_id:
     description: "Parent page ID"
-    required: false
+    required: true
   root_dir:
     description: "Directory containing markdown"
-    required: false
+    required: true
     default: "."
   space:
-    description: "Confluence space key"
-    required: false
+    description: "Confluence API key"
+    required: true
 
 runs:
   using: docker
   image: Dockerfile
   env:
-    CONFLUENCE_URL:  ${{ inputs.confluence_url }}
+    CONFLUENCE_URL: ${{ inputs.confluence_url }}
     CONFLUENCE_EMAIL: ${{ inputs.confluence_email }}
     ROOT_PAGE_ID: ${{ inputs.root_page_id }}
     ROOT_DIR: ${{ inputs.root_dir }}

@@ -11,17 +11,17 @@ on:
         type: string
       ROOT_PARENT_PAGE_ID:
         description: "Optional parent page ID for Confluence"
-        required: false
+        required: true
         type: string
       SPACE:
         description: "Space ID for Confluence"
-        required: false
+        required: true
         type: string
       ROOT_DIR:
         description: "Root directory containing the markdown files"
-        required: false
+        required: true
         type: string
-        default: "./docs"
+        default: "."
     secrets:
       CONFLUENCE_API_TOKEN:
         required: true
