@@ -6,6 +6,8 @@ inputs:
   root-dir:
     required: false
     default: "."
+  space:
+    required: true
 
 runs:
   using: "docker"
@@ -15,3 +17,5 @@ runs:
     - ${{ inputs.root-page-id }}
     - "--root-dir"
     - ${{ inputs.root-dir }}
+    - "--space"
+    - ${{ inputs.space }}

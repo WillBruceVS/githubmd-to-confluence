@@ -7,6 +7,10 @@ on:
         description: "Optional parent page ID for Confluence"
         required: false
         type: string
+      SPACE:
+        description: "Space ID for Confluence"
+        required: false
+        type: string
       ROOT_DIR:
         description: "Root directory containing the markdown files"
         required: false
@@ -39,8 +43,10 @@ jobs:
           CONFLUENCE_SPACE: ${{ secrets.CONFLUENCE_SPACE }}
 
           ROOT_PARENT_PAGE_ID: ${{ inputs.ROOT_PARENT_PAGE_ID || vars.ROOT_PARENT_PAGE_ID || '' }}
+          SPACE: ${{ inputs.SPACE || vars.SPACE || '' }}
 
         run: |
           python3 ./upload_to_confluence.py \
             --root-page-id "${ROOT_PARENT_PAGE_ID}" \
-            --root-dir .
+            --root-dir . \
+            --space  "${SPACE}"

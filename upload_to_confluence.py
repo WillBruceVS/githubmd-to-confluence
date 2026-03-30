@@ -31,6 +31,7 @@ parser.add_argument(
 parser.add_argument(
     "--root-dir", default=".", help="Filesystem root directory"
 )
+parser.add_argument("--space", default=".", help="Confluence Space to use")
 args = parser.parse_args()
 
 ROOT_PARENT_PAGE_ID = args.root_page_id
@@ -46,7 +47,7 @@ confluence = Confluence(
     password=os.environ["CONFLUENCE_API_TOKEN"],
 )
 
-SPACE = os.environ["CONFLUENCE_SPACE"]
+SPACE = args.space
 
 # ---------------------------------------------------------
 # CHECK ROOT PAGE TYPE (FOLDER → CREATE REAL PAGE)
