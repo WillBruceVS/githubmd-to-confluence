@@ -1,4 +1,4 @@
-name: Upload Markdown to Confluence
+name: Upload Markdown to Confluence (workflow)
 
 on:
   workflow_call:
@@ -9,7 +9,7 @@ on:
       CONFLUENCE_EMAIL:
         required: true
         type: string
-      ROOT_PARENT_PAGE_ID:
+      root_page_id:
         description: "Root parent page ID for Confluence"
         required: true
         type: string
@@ -39,7 +39,7 @@ jobs:
           CONFLUENCE_URL: ${{ inputs.CONFLUENCE_URL }}
           CONFLUENCE_EMAIL: ${{ inputs.CONFLUENCE_EMAIL }}
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
-          ROOT_PARENT_PAGE_ID: ${{ inputs.ROOT_PARENT_PAGE_ID }}
+          ROOT_PARENT_PAGE_ID: ${{ inputs.root_page_id }}
           SPACE: ${{ inputs.SPACE }}
           ROOT_DIR: ${{ inputs.ROOT_DIR }}
 
