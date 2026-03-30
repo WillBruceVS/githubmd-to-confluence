@@ -37,6 +37,8 @@ args = parser.parse_args()
 ROOT_PARENT_PAGE_ID = args.root_page_id
 ROOT_DIR = args.root_dir
 
+print("Using argument for --root-page-id:   " + ROOT_PARENT_PAGE_ID)
+print("Using argument for --root-dir:   " + ROOT_DIR)
 # ---------------------------------------------------------
 # CONNECT TO CONFLUENCE
 # ---------------------------------------------------------
