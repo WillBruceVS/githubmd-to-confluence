@@ -16,7 +16,7 @@ import re
 import uuid
 import mimetypes
 import argparse
-from typing import Any, Optional, Pattern
+from typing import Any, Optional
 import markdown2
 from atlassian import Confluence
 
@@ -331,9 +331,8 @@ def convert_markdown_with_images(md_path: str, page_id: str) -> str:
             f"</ac:image>"
         )
 
-    md = re.sub(
-        pattern=Pattern[r"!\[(.*?)\]\((.*?)\)"], repl=img_repl, string=md
-    )
+    image_pattern = re.compile(r"!\[(.*?)\]\((.*?)\)")
+    md = image_pattern.sub(img_repl, md)
 
     # Markdown → HTML
     html = markdown2.markdown(
