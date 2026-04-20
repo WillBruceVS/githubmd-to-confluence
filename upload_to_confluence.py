@@ -16,7 +16,7 @@ import re
 import uuid
 import mimetypes
 import argparse
-from typing import Any, Optional
+from typing import Any, Optional, Pattern
 import markdown2
 from atlassian import Confluence
 
@@ -331,7 +331,9 @@ def convert_markdown_with_images(md_path: str, page_id: str) -> str:
             f"</ac:image>"
         )
 
-    md = re.sub(r"!\[(.*?)\]\((.*?)\)", img_repl, md)
+    md = re.sub(
+        pattern=Pattern[r"!\[(.*?)\]\((.*?)\)"], repl=img_repl, string=md
+    )
 
     # Markdown → HTML
     html = markdown2.markdown(
@@ -367,30 +369,37 @@ def process_directory(path: str, parent_page_id: str | None):
 
     if path == ROOT_DIR:
         page_id = parent_page_id
-        page_title = ROOT_PAGE_TITLE  # ✅ Keep original Confluence title
-
+        page_title = ROOT_PAGE_TITLE
     else:
         page_id = get_or_create_page(folder_name, parent_page_id)
-        page_title = folder_name  # ✅ Only use folder name for subpages
+        page_title = folder_name
 
-    # Process README
-    readme = None
-    for f in os.listdir(path):
-        if f.lower() in ("readme.md", "readme"):
-            readme = os.path.join(path, f)
-            break
+    # Process markdown files
+    for f in sorted(os.listdir(path)):
+        if not f.lower().endswith(".md"):
+            continue
 
-    if readme:
-        print(f"\n📄 Updating page content → {folder_name}")
-        html = convert_markdown_with_images(readme, page_id)
+        md_path = os.path.join(path, f)
+
+        # README.md populates the folder page
+        if f.lower() == "readme.md":
+            target_page_id = page_id
+            title = page_title
+        else:
+            title = os.path.splitext(f)[0]
+            target_page_id = get_or_create_page(title, page_id)
+
+        print(f"\n📄 Updating page content → {title}")
+        html = convert_markdown_with_images(md_path, target_page_id)
 
         confluence.update_page(
-            page_id=page_id,
-            title=page_title,
+            page_id=target_page_id,
+            title=title,
             body=html,
             representation="storage",
         )
-        print(f"✅ Updated: {folder_name}")
+
+        print(f"✅ Updated: {title}")
 
     # Recurse into subdirectories
     for dirname in sorted(os.listdir(path)):
