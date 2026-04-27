@@ -86,6 +86,8 @@ IGNORED_DIRS = {
     "architecture_diagrams/code",
     "architecture_diagrams/icons",
     "architecture_diagrams/images",
+    "techlens",
+    "tests/rsconnect",
 }
 
 # ============================================================================
