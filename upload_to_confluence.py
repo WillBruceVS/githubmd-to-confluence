@@ -83,6 +83,9 @@ IGNORED_DIRS = {
     ".idea",
     ".vscode",
     "node_modules",
+    "architecture_diagrams/code",
+    "architecture_diagrams/icons",
+    "architecture_diagrams/images",
 }
 
 # ============================================================================
