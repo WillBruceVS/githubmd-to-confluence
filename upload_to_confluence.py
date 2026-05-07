@@ -88,6 +88,7 @@ IGNORED_DIRS = {
     "architecture_diagrams/images",
     "techlens",
     "tests/rsconnect",
+    "pyterra/",
 }
 
 # ============================================================================
