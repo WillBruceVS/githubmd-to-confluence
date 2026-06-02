@@ -254,6 +254,26 @@ def extract_fenced_blocks(
 
 
 # ============================================================================
+# REWRITE ANCHORS
+# ============================================================================
+
+
+def github_anchor_to_confluence(anchor: str) -> str:
+    """
+    Convert GitHub-style anchor (#my-header) → Confluence-style (#My-Header)
+    """
+    anchor = anchor.lstrip("#")
+
+    # Split on hyphens and capitalize words
+    words = anchor.split("-")
+
+    # Capitalize each word
+    words = [w.capitalize() for w in words if w]
+
+    return "#" + "-".join(words)
+
+
+# ============================================================================
 # RESTORE CODE BLOCKS INTO CONFLUENCE
 # ============================================================================
 
@@ -339,6 +359,25 @@ def convert_markdown_with_images(md_path: str, page_id: str) -> str:
 
     image_pattern = re.compile(r"!\[(.*?)\]\((.*?)\)")
     md = image_pattern.sub(img_repl, md)
+
+    def fix_internal_links(md: str) -> str:
+        """
+        Convert GitHub-style in-page links to Confluence anchors
+        """
+
+        pattern = re.compile(r"\[([^\]]+)\]\(#([^)]+)\)")
+
+        def repl(match):
+            text = match.group(1)
+            anchor = match.group(2)
+
+            new_anchor = github_anchor_to_confluence(anchor)
+
+            return f"[{text}]({new_anchor})"
+
+        return pattern.sub(repl, md)
+
+    md = fix_internal_links(md)
 
     # Markdown → HTML
     html = markdown2.markdown(
